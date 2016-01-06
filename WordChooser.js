@@ -78,7 +78,6 @@ class LetterChoice extends React.Component {
     return (
       <Animated.View style={[
           BaseStyles.centerContent,
-          styles.letterChoice,
           {
             transform: [{'scale': this.state.scale}]
           }
