@@ -15,7 +15,7 @@ def anagrams(word, dictionary):
         'word': word.upper(),
         'anagrams': sorted(set(output))
     }
-    return json.dumps(obj, indent=4, separators=(', ', ': '))
+    return json.dumps(obj, indent=4, separators=(',', ': '))
 
 
 if __name__ == '__main__':
