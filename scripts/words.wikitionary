@@ -1540,8 +1540,8 @@ docs
 dodo
 does
 dogs
-doin
-doke
+`doin
+`doke
 dole
 doll
 dolt
@@ -1639,7 +1639,7 @@ epic
 eres
 ergo
 erin
-eros
+`eros
 esta
 eugh
 euro
@@ -2756,9 +2756,9 @@ rays
 read
 real
 ream
-reap
+`reap
 rear
-redi
+`redi
 redo
 reds
 reed
@@ -2768,7 +2768,7 @@ reel
 reid
 rein
 rely
-remo
+`remo
 rent
 reps
 rest
@@ -2816,7 +2816,9 @@ rook
 room
 root
 rope
+rose
 rosy
+rote
 roth
 rots
 rows
