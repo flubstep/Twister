@@ -196,7 +196,7 @@ function setLetters(letters) {
   gameStore.dispatch({
     type: 'RESET_LETTERS'
   });
-  letters.map((letter) => {
+  _shuffle(letters).map((letter) => {
     gameStore.dispatch({
       type: 'ADD_LETTER',
       letter: letter

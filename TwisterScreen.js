@@ -25,30 +25,7 @@ function time() {
   return Math.floor((new Date()).getTime()/1000);
 }
 
-
-const testLetters = ['P', 'A', 'N', 'E', 'R', 'A'];
-const testWords = [
-  'APE',
-  'ARE',
-  'AREA',
-  'ARENA',
-  'EAR',
-  'EARN',
-  'EPA',
-  'ERA',
-  'NAP',
-  'NEAR',
-  'PAN',
-  'PAR',
-  'PEN',
-  'PER',
-  'RAN',
-  'RAP',
-  'REP',
-  'RNA',
-  'PANERA'
-];
-
+const puzzleSource = "http://flubstep.com/twist/random.json";
 
 class TwisterScreen extends React.Component {
 
@@ -62,18 +39,19 @@ class TwisterScreen extends React.Component {
 
   componentDidMount() {
     Actions.subscribe((gameState) => {
-      this.setState({
-        ...gameState,
-        ready: true
-      });
+      this.setState(gameState);
     });
     this.fetchGame();
   }
 
-  fetchGame() {
-    // TODO: remove mock
-    Actions.setLetters(testLetters);
-    Actions.setWords(testWords);
+  async fetchGame() {
+    let response = await fetch(puzzleSource);
+    let {word, anagrams} = await response.json();
+    Actions.setLetters(word.split(''));
+    Actions.setWords(anagrams);
+    this.setState({
+      ready: true
+    });
   }
 
   render() {
