@@ -1,6 +1,7 @@
 import sys
 import argparse
 import random
+import json
 from calculate_anagrams import anagrams
 
 if __name__ == '__main__':
@@ -24,8 +25,13 @@ if __name__ == '__main__':
     words = open(args.dictfile).read().split()
     words_set = set(words)
     words_sixes = [w for w in words if len(w) == 6]
+    found = 0
 
-    for idx in range(args.count):
+    while found < args.count:
         word_six = random.choice(words_sixes)
-        with open('anagrams.%d.json' % (idx+1), 'w') as fp:
-            fp.write(anagrams(word_six, words_set))
+        to_write = anagrams(word_six, words_set)
+        num_anagrams = len(json.loads(to_write)['anagrams'])
+        if num_anagrams >= 15:
+            with open('%s.json' % (word_six), 'w') as fp:
+                fp.write(anagrams(word_six, words_set))
+            found += 1
