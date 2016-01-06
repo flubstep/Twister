@@ -67,6 +67,10 @@ class TwisterScreen extends React.Component {
         ready: true
       });
     });
+    this.fetchGame();
+  }
+
+  fetchGame() {
     // TODO: remove mock
     Actions.setLetters(testLetters);
     Actions.setWords(testWords);
