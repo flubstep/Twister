@@ -27,5 +27,5 @@ if __name__ == '__main__':
 
     for idx in range(args.count):
         word_six = random.choice(words_sixes)
-        with open('anagrams.%d.json' % idx, 'w') as fp:
+        with open('anagrams.%d.json' % (idx+1), 'w') as fp:
             fp.write(anagrams(word_six, words_set))
