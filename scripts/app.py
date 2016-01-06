@@ -10,7 +10,7 @@ filenames = [os.path.join('./puzzles/', f) for f in puzzlefiles]
 puzzles = [open(f).read() for f in filenames]
 
 
-@app.route('/')
+@app.route('/twist/random.json')
 def random_puzzle():
     return Response(random.choice(puzzles))
 
