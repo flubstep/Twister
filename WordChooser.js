@@ -22,6 +22,11 @@ let {Colors, Dimensions, BaseStyles} = require('Constants');
 class LetterChooser extends React.Component {
 
   onPress() {
+    // This gets fired onTouchStart so that it feels more responsive and
+    // more like the native keyboard. Depending on how fast we type, we
+    // might end up hitting multiple keys at the same time, so just put
+    // the letter in on the start of the press instead of waiting for the
+    // press to release.
     if (!this.props.letterObject.used) {
       Actions.chooseLetter(this.props.letterObject);
     }
@@ -40,21 +45,19 @@ class LetterChooser extends React.Component {
       );
     } else {
       return (
-        <TouchableHighlight
+        <View
           style={[
             BaseStyles.centerContent,
             styles.letterChooser]}
-          onPressIn={() => {this.onPress()}}
-          delayPressIn={0}
+            onTouchStart={() => this.onPress()}
           >
           <Text style={BaseStyles.largeText}>
             {this.props.letterObject.letter}
           </Text>
-        </TouchableHighlight>
+        </View>
       );
     }
   }
-
 }
 
 class LetterChoice extends React.Component {
