@@ -9,7 +9,9 @@ let {
   StatusBarIOS
 } = React;
 
-StatusBarIOS.setHidden(true);
+if (StatusBarIOS) {
+  StatusBarIOS.setHidden(true);
+}
 
 let TwisterScreen = require('TwisterScreen');
 
