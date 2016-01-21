@@ -54,6 +54,10 @@ const Constants = {
     centerContent: {
       alignItems: 'center',
       justifyContent: 'center'
+    },
+    disabledButton: {
+      opacity: 0.5,
+      backgroundColor: 'gray'
     }
   }
 

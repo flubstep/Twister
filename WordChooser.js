@@ -27,13 +27,27 @@ class LetterChooser extends React.Component {
     // might end up hitting multiple keys at the same time, so just put
     // the letter in on the start of the press instead of waiting for the
     // press to release.
-    if (!this.props.letterObject.used) {
+    if (!this.props.letterObject.used && !this.props.disabled) {
       Actions.chooseLetter(this.props.letterObject);
     }
   }
 
   render() {
-    if (this.props.letterObject.used) {
+    if (this.props.disabled) {
+      return (
+        <View
+          style={[
+            BaseStyles.centerContent,
+            BaseStyles.disabledButton,
+            styles.letterChooser]}
+          >
+          <Text style={BaseStyles.largeText}>
+            {this.props.letterObject.letter}
+          </Text>
+        </View>
+      );
+    }
+    else if (this.props.letterObject.used) {
       return (
         <View
           style={[
@@ -121,15 +135,28 @@ class WordChoice extends React.Component {
 class ActionButton extends React.Component {
 
   render() {
-    return (
-      <TouchableHighlight
-        style={[BaseStyles.centerContent, styles.actionButtonContainer]}
-        onPressIn={this.props.onPress}
-        delayPressIn={0}
-        >
-        <Image source={{uri: this.props.uri}} style={styles.actionButton}/>
-      </TouchableHighlight>
-    );
+    if (this.props.disabled) {
+      return (
+        <View
+          style={[
+            BaseStyles.centerContent,
+            BaseStyles.disabledButton,
+            styles.actionButtonContainer]}
+          >
+          <Image source={{uri: this.props.uri}} style={styles.actionButton}/>
+        </View>
+      );
+    } else {
+      return (
+        <TouchableHighlight
+          style={[BaseStyles.centerContent, styles.actionButtonContainer]}
+          onPressIn={this.props.onPress}
+          delayPressIn={0}
+          >
+          <Image source={{uri: this.props.uri}} style={styles.actionButton}/>
+        </TouchableHighlight>
+      );
+    }
   }
 
 }
@@ -146,14 +173,17 @@ class ActionChooser extends React.Component {
     return (      
       <View style={[BaseStyles.centerContent, styles.actionChooser]}>
         <ActionButton
+          disabled={this.props.disabled}
           uri={BACKSPACE_IMAGE_URI}
           onPress={Actions.backspace}
         />
         <ActionButton
+          disabled={this.props.disabled}
           uri={SHUFFLE_IMAGE_URI}
           onPress={Actions.shuffle}
         />
         <ActionButton
+          disabled={this.props.disabled}
           uri={SUBMIT_IMAGE_URI}
           onPress={Actions.submitWord}
         />
@@ -182,11 +212,17 @@ class WordChooser extends React.Component {
           <View style={[BaseStyles.centerContent, styles.letterChooserContainer]}>
             {this.props.wordChooser.map((letter, index) => {
               return (
-                <LetterChooser key={index} letterObject={letter}/>
+                <LetterChooser
+                  key={index}
+                  disabled={this.props.gameDone}
+                  letterObject={letter}
+                />
               );
             })}
           </View>
-          <ActionChooser />
+          <ActionChooser
+            disabled={this.props.gameDone}
+          />
         </View>
       </View>
     );

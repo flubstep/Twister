@@ -84,7 +84,7 @@ class TwisterScreen extends React.Component {
     if (this.state.ready) {
       let boardSize = this.state.revealedWords.allWords.length;
       let fontSize = boardSizeToFontSize(boardSize);
-      let revealAll = this.state.endTime <= time();
+      let gameDone = this.state.endTime <= time();
       return (
         <View>
           <GameTimer
@@ -93,11 +93,12 @@ class TwisterScreen extends React.Component {
           <DiscoveredWords
             fontSize={fontSize}
             revealedWords={this.state.revealedWords}
-            revealAll={revealAll}
+            revealAll={gameDone}
             />
           <WordChooser
-            wordChoice={this.state.wordChoice}
+            wordChoice={gameDone ? [] : this.state.wordChoice}
             wordChooser={this.state.wordChooser}
+            gameDone={gameDone}
           />
         </View>
       );
