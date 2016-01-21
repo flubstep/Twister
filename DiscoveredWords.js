@@ -24,13 +24,14 @@ let {Colors, Dimensions, BaseStyles} = require('Constants');
 class DiscoverWord extends React.Component {
 
   render() {
-    let fontWeight = this.props.word[0] == '?' ? '100' : '400';
-    let fontFamily = this.props.word[0] == '?' ? 'Helvetica Neue' : 'Gill Sans';
+    let fontWeight = this.props.state == 'hidden' ? '100' : '400';
+    let fontFamily = this.props.state == 'hidden' ? 'Helvetica Neue' : 'Gill Sans';
+    let color = this.props.state == 'revealed' ? Colors.red : Colors.dark;
     let fontSize = this.props.fontSize;
     return (
       <Text style={[
         BaseStyles.largeText,
-        {fontWeight, fontFamily, fontSize}
+        {fontWeight, fontFamily, fontSize, color}
         ]}>{this.props.word}</Text>
     );
   }
@@ -43,9 +44,17 @@ class DiscoveredWordsColumn extends React.Component {
   render() {
     return (
       <View style={[BaseStyles.centerContent, styles.wordsPanel]}>
-        {this.props.words.map((word, index) => {
+        {this.props.words.map((wordState, index) => {
+          let {word, state} = wordState;
           let key = word + index;
-          return (<DiscoverWord key={key} fontSize={this.props.fontSize} word={word}/>);
+          return (
+            <DiscoverWord
+              key={key}
+              fontSize={this.props.fontSize}
+              state={state}
+              word={word}
+            />
+          );
         })}
       </View>
     );
@@ -76,12 +85,17 @@ class DiscoveredWords extends React.Component {
     let columnWords1 = slice(allWords, 0, columnLength);
     let columnWords2 = slice(allWords, columnLength, columnLength*2);
     let columnWords3 = slice(allWords, columnLength*2);
+    let revealAll = this.props.revealAll;
 
     function hideIfUnrevealed(word) {
       if (contains(revealedWords, word)) {
-        return word;
-      } else {
-        return hideWord(word);
+        return { state: 'found', word: word }
+      }
+      else if (revealAll) {
+        return { state: 'revealed', word: word }
+      }
+      else {
+        return { state: 'hidden', word: hideWord(word) }
       }
     }
 
@@ -95,6 +109,11 @@ class DiscoveredWords extends React.Component {
   }
 
 }
+
+DiscoveredWords.defaultProps = {
+  revealAll: false
+};
+
 
 let styles = StyleSheet.create({
 

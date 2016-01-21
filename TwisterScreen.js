@@ -27,11 +27,11 @@ function time() {
   return Math.floor((new Date()).getTime()/1000);
 }
 
-let fontSizes = [12, 16, 20, 24];
+let fontSizes = [8, 12, 16, 20, 24, 28];
 
 function boardSizeToFontSize(boardSize) {
   let boardHeight = Dimensions.wordsContainerHeight;
-  let columnLength = Math.ceil(boardSize / 3) + 2;
+  let columnLength = Math.ceil(boardSize / 3) + 2; // HACK: add 2 as buffer for the ends
   let acceptableSizes = fontSizes.filter((fontSize) => {
     let columnHeight = fontSize * columnLength;
     return (columnHeight < boardHeight);
@@ -81,6 +81,7 @@ class TwisterScreen extends React.Component {
           <DiscoveredWords
             fontSize={fontSize}
             revealedWords={this.state.revealedWords}
+            revealAll={false}
             />
           <WordChooser
             wordChoice={this.state.wordChoice}

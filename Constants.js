@@ -21,7 +21,8 @@ const Constants = {
     lightBackground: '#7887AB',
     green: '#407F7F',
     white: '#FEFEFE',
-    dark: '#333333'
+    dark: '#333333',
+    red: 'red'
   },
 
   Dimensions: {
