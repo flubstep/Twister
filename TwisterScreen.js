@@ -6,7 +6,6 @@
 
 let React = require('react-native');
 let {
-  Dimensions,
   StyleSheet,
   Text,
   View,
@@ -15,15 +14,31 @@ let {
   Animated
 } = React;
 
+let {last} = require('lodash');
+
 let Actions = require('Actions');
 let DiscoveredWords = require('DiscoveredWords');
 let WordChooser = require('WordChooser');
 let GameTimer = require('GameTimer');
+let {Dimensions} = require('Constants');
 
 
 function time() {
   return Math.floor((new Date()).getTime()/1000);
 }
+
+let fontSizes = [12, 16, 20, 24];
+
+function boardSizeToFontSize(boardSize) {
+  let boardHeight = Dimensions.wordsContainerHeight;
+  let columnLength = Math.ceil(boardSize / 3) + 2;
+  let acceptableSizes = fontSizes.filter((fontSize) => {
+    let columnHeight = fontSize * columnLength;
+    return (columnHeight < boardHeight);
+  });
+  return last(acceptableSizes);
+}
+
 
 const puzzleSource = "http://flubstep.com/twist/random.json";
 
@@ -56,13 +71,15 @@ class TwisterScreen extends React.Component {
 
   render() {
     if (this.state.ready) {
+      let boardSize = this.state.revealedWords.allWords.length;
+      let fontSize = boardSizeToFontSize(boardSize);
       return (
         <View>
           <GameTimer
             endTime={this.state.endTime}
           />
           <DiscoveredWords
-            fontSize={24}
+            fontSize={fontSize}
             revealedWords={this.state.revealedWords}
             />
           <WordChooser

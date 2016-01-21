@@ -99,14 +99,14 @@ class DiscoveredWords extends React.Component {
 let styles = StyleSheet.create({
 
   discoveredWordsContainer: {
-    height: Dimensions.windowHeight/2,
+    height: Dimensions.wordsContainerHeight,
     width: Dimensions.windowWidth,
     flexDirection: 'row',
     backgroundColor: Colors.white
   },
   wordsPanel: {
     width: Dimensions.windowWidth/3,
-    height: Dimensions.windowHeight/2
+    height: Dimensions.wordsContainerHeight
   }
 
 });

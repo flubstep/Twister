@@ -27,7 +27,8 @@ const Constants = {
   Dimensions: {
     baseMargin: 8,
     windowHeight: windowHeight,
-    windowWidth: windowWidth
+    windowWidth: windowWidth,
+    wordsContainerHeight: windowHeight / 2
   },
 
   BaseStyles: {
