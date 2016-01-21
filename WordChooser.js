@@ -170,27 +170,57 @@ const SUBMIT_IMAGE_URI = "http://flubstep.com/images/ic_done_black_24dp/ios/ic_d
 class ActionChooser extends React.Component {
 
   render() {
-    return (      
-      <View style={[BaseStyles.centerContent, styles.actionChooser]}>
-        <ActionButton
-          disabled={this.props.disabled}
-          uri={BACKSPACE_IMAGE_URI}
-          onPress={Actions.backspace}
+    if (this.props.restartAvailable) {
+      return (
+        <RestartButton
+          loading={this.props.loading}
+          restart={this.props.restart}
         />
-        <ActionButton
-          disabled={this.props.disabled}
-          uri={SHUFFLE_IMAGE_URI}
-          onPress={Actions.shuffle}
-        />
-        <ActionButton
-          disabled={this.props.disabled}
-          uri={SUBMIT_IMAGE_URI}
-          onPress={Actions.submitWord}
-        />
+      );
+    } else {
+      return (
+        <View style={[BaseStyles.centerContent, styles.actionChooser]}>
+          <ActionButton
+            disabled={this.props.disabled}
+            uri={BACKSPACE_IMAGE_URI}
+            onPress={Actions.backspace}
+          />
+          <ActionButton
+            disabled={this.props.disabled}
+            uri={SHUFFLE_IMAGE_URI}
+            onPress={Actions.shuffle}
+          />
+          <ActionButton
+            disabled={this.props.disabled}
+            uri={SUBMIT_IMAGE_URI}
+            onPress={Actions.submitWord}
+          />
+        </View>
+      );
+    }
+  }
+}
+
+class RestartButton extends React.Component {
+
+  render() {
+    return (
+      <View style={BaseStyles.centerContent, styles.actionChooser}>
+        <TouchableHighlight
+          style={[
+            BaseStyles.centerContent,
+            styles.actionButtonContainer,
+            styles.restartButtonContainer
+          ]}
+          onPress={this.props.restart}
+          >
+          <Text style={BaseStyles.largeText}>
+            {this.props.loading ? "Loading..." : "Play Again?"}
+          </Text>
+        </TouchableHighlight>
       </View>
     );
   }
-
 }
 
 
@@ -203,7 +233,6 @@ class WordChooser extends React.Component {
 
   render() {
     return (
-
       <View style={styles.wordChooserContainer}>
         <WordChoice
           letters={this.props.wordChoice}
@@ -221,6 +250,9 @@ class WordChooser extends React.Component {
             })}
           </View>
           <ActionChooser
+            restart={this.props.restartGame}
+            restartAvailable={this.props.restartAvailable}
+            loading={this.props.loading}
             disabled={this.props.gameDone}
           />
         </View>
@@ -289,6 +321,9 @@ let styles = StyleSheet.create({
   actionButton: {
     height: 36,
     width: 36
+  },
+  restartButtonContainer: {
+    width: 54 * 3 + 4 * 2
   }
 
 });

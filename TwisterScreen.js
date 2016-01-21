@@ -50,6 +50,8 @@ class TwisterScreen extends React.Component {
     super(props, context);
     this.state = {
       ready: false,
+      loading: false,
+      restartAvailable: false,
       timeLeft: 0
     };
   }
@@ -64,26 +66,43 @@ class TwisterScreen extends React.Component {
 
   onTick() {
     this.setState({
-      timeLeft: Math.max(0, this.state.endTime - time())
+      timeLeft: Math.max(0, this.state.endTime - time()),
+      gameDone: this.state.endTime <= time(),
+      restartAvailable: (this.state.endTime + 2) <= time()
+    });
+  }
+
+  enableRestart() {
+    this.setState({
+      restartAvailable: true
     });
   }
 
   async fetchGame() {
+    this.setState({
+      loading: true
+    });
     let response = await fetch(puzzleSource);
     let {word, anagrams} = await response.json();
+    // Set game timer here so that we don't accidentally reveal
+    // anything if the setWords hits before next render cycle
+    this.setState({
+      gameDone: false,
+      endTime: time() + 120
+    });
     Actions.setLetters(word.split(''));
     Actions.setWords(anagrams);
     this.setState({
-      endTime: time() + 120,
+      loading: false,
       ready: true
     });
   }
+
 
   render() {
     if (this.state.ready) {
       let boardSize = this.state.revealedWords.allWords.length;
       let fontSize = boardSizeToFontSize(boardSize);
-      let gameDone = this.state.endTime <= time();
       return (
         <View>
           <GameTimer
@@ -92,12 +111,15 @@ class TwisterScreen extends React.Component {
           <DiscoveredWords
             fontSize={fontSize}
             revealedWords={this.state.revealedWords}
-            revealAll={gameDone}
+            revealAll={this.state.gameDone}
             />
           <WordChooser
-            wordChoice={gameDone ? [] : this.state.wordChoice}
+            wordChoice={this.state.gameDone ? [] : this.state.wordChoice}
             wordChooser={this.state.wordChooser}
-            gameDone={gameDone}
+            gameDone={this.state.gameDone}
+            restartGame={this.fetchGame.bind(this)}
+            restartAvailable={this.state.restartAvailable}
+            loading={this.state.loading}
           />
         </View>
       );

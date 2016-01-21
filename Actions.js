@@ -106,6 +106,9 @@ const wordChoice = (state = [], action) => {
         action.letterObject
       ];
 
+    case 'RESET_LETTERS':
+      return [];
+
     case 'BACKSPACE':
       return initial(state);
 
