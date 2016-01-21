@@ -62,6 +62,7 @@ class TwisterScreen extends React.Component {
             endTime={this.state.endTime}
           />
           <DiscoveredWords
+            fontSize={24}
             revealedWords={this.state.revealedWords}
             />
           <WordChooser

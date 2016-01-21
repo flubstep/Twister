@@ -26,10 +26,11 @@ class DiscoverWord extends React.Component {
   render() {
     let fontWeight = this.props.word[0] == '?' ? '100' : '400';
     let fontFamily = this.props.word[0] == '?' ? 'Helvetica Neue' : 'Gill Sans';
+    let fontSize = this.props.fontSize;
     return (
       <Text style={[
         BaseStyles.largeText,
-        {fontWeight, fontFamily}
+        {fontWeight, fontFamily, fontSize}
         ]}>{this.props.word}</Text>
     );
   }
@@ -44,7 +45,7 @@ class DiscoveredWordsColumn extends React.Component {
       <View style={[BaseStyles.centerContent, styles.wordsPanel]}>
         {this.props.words.map((word, index) => {
           let key = word + index;
-          return (<DiscoverWord key={key} word={word}/>);
+          return (<DiscoverWord key={key} fontSize={this.props.fontSize} word={word}/>);
         })}
       </View>
     );
@@ -86,9 +87,9 @@ class DiscoveredWords extends React.Component {
 
     return (
       <View style={styles.discoveredWordsContainer}>
-        <DiscoveredWordsColumn words={columnWords1.map(hideIfUnrevealed)}/>
-        <DiscoveredWordsColumn words={columnWords2.map(hideIfUnrevealed)}/>
-        <DiscoveredWordsColumn words={columnWords3.map(hideIfUnrevealed)}/>
+        <DiscoveredWordsColumn words={columnWords1.map(hideIfUnrevealed)} fontSize={this.props.fontSize}/>
+        <DiscoveredWordsColumn words={columnWords2.map(hideIfUnrevealed)} fontSize={this.props.fontSize}/>
+        <DiscoveredWordsColumn words={columnWords3.map(hideIfUnrevealed)} fontSize={this.props.fontSize}/>
       </View>
     );
   }
