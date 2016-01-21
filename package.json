@@ -1,11 +1,11 @@
 {
   "name": "Twister",
   "version": "0.0.0",
-  "description": "Hello Exponent!",
+  "description": "Text Twist clone on React Native",
   "main": "main.js",
   "author": "albert.sheu@gmail.com",
   "dependencies": {
-    "react-native": "exponentjs/react-native#2015-11-13",
+    "react-native": "github:exponentjs/react-native#2016-01-02",
     "react-timer-mixin": "^0.13.3",
     "redux": "^3.0.4",
     "lodash": "^3.10.1",
