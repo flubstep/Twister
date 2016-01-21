@@ -14,12 +14,15 @@ let {
   Animated
 } = React;
 
+let ReactMixin = require('react-mixin');
+let TimerMixin = require('react-timer-mixin');
 let {last} = require('lodash');
 
 let Actions = require('Actions');
 let DiscoveredWords = require('DiscoveredWords');
 let WordChooser = require('WordChooser');
 let GameTimer = require('GameTimer');
+
 let {Dimensions} = require('Constants');
 
 
@@ -48,7 +51,7 @@ class TwisterScreen extends React.Component {
     super(props, context);
     this.state = {
       ready: false,
-      endTime: time() + 120
+      timeLeft: 0
     };
   }
 
@@ -57,6 +60,13 @@ class TwisterScreen extends React.Component {
       this.setState(gameState);
     });
     this.fetchGame();
+    this.setInterval(this.onTick, 100);
+  }
+
+  onTick() {
+    this.setState({
+      timeLeft: Math.max(0, this.state.endTime - time())
+    });
   }
 
   async fetchGame() {
@@ -65,6 +75,7 @@ class TwisterScreen extends React.Component {
     Actions.setLetters(word.split(''));
     Actions.setWords(anagrams);
     this.setState({
+      endTime: time() + 120,
       ready: true
     });
   }
@@ -73,15 +84,16 @@ class TwisterScreen extends React.Component {
     if (this.state.ready) {
       let boardSize = this.state.revealedWords.allWords.length;
       let fontSize = boardSizeToFontSize(boardSize);
+      let revealAll = this.state.endTime <= time();
       return (
         <View>
           <GameTimer
-            endTime={this.state.endTime}
+            timeLeft={this.state.timeLeft}
           />
           <DiscoveredWords
             fontSize={fontSize}
             revealedWords={this.state.revealedWords}
-            revealAll={false}
+            revealAll={revealAll}
             />
           <WordChooser
             wordChoice={this.state.wordChoice}
@@ -102,4 +114,4 @@ let styles = StyleSheet.create({
 
 });
 
-module.exports = TwisterScreen;
+module.exports = ReactMixin.decorate(TimerMixin)(TwisterScreen);

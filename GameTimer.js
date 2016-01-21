@@ -18,35 +18,11 @@ let TimerMixin = require('react-timer-mixin');
 let {Colors, Dimensions, BaseStyles} = require('Constants');
 
 
-function time() {
-  return Math.floor((new Date()).getTime()/1000);
-}
-
-
 class GameTimer extends React.Component {
 
-  constructor(props, context) {
-    super(props, context)
-    let timeLeft = this.props.endTime - time();
-    this.state = {
-      timeLeft
-    };
-  }
-
-  componentDidMount() {
-    this.setInterval(this.onTick, 100);
-  }
-
-  onTick() {
-    let timeLeft = Math.max(0, this.props.endTime - time());
-    this.setState({
-      timeLeft
-    });
-  }
-
   timeLeftString() {
-    let timeLeftMinutes = Math.floor((this.state.timeLeft / 60)).toString();
-    let timeLeftSeconds = (this.state.timeLeft % 60).toString();
+    let timeLeftMinutes = Math.floor((this.props.timeLeft / 60)).toString();
+    let timeLeftSeconds = (this.props.timeLeft % 60).toString();
     if (timeLeftSeconds.length < 2) {
       timeLeftSeconds = '0' + timeLeftSeconds;
     }
@@ -54,7 +30,7 @@ class GameTimer extends React.Component {
   }
 
   render() {
-    let extraStyles = (this.state.timeLeft <= 15) ? {color: 'red'} : {};
+    let extraStyles = (this.props.timeLeft <= 15) ? {color: Colors.red} : {};
     return (
       <View style={[BaseStyles.centerContent, styles.timerContainer]}>
         <Text style={[BaseStyles.hugeText, extraStyles]}>
@@ -76,4 +52,4 @@ let styles = StyleSheet.create({
 
 });
 
-module.exports = ReactMixin.decorate(TimerMixin)(GameTimer);
+module.exports = GameTimer;
