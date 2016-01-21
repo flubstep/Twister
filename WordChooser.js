@@ -105,9 +105,9 @@ class WordChoice extends React.Component {
             ]}
           onPress={Actions.backspace}
           >
-          {this.props.letters.map((letterObject) => {
+          {this.props.letters.map((letterObject, index) => {
             return (
-              <LetterChoice letter={letterObject.letter} />
+              <LetterChoice key={index} letter={letterObject.letter} />
             );
           })}
         </View>
@@ -180,9 +180,9 @@ class WordChooser extends React.Component {
         />
         <View style={styles.buttonsContainer}>
           <View style={[BaseStyles.centerContent, styles.letterChooserContainer]}>
-            {this.props.wordChooser.map((letter) => {
+            {this.props.wordChooser.map((letter, index) => {
               return (
-                <LetterChooser letterObject={letter}/>
+                <LetterChooser key={index} letterObject={letter}/>
               );
             })}
           </View>

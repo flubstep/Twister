@@ -42,8 +42,9 @@ class DiscoveredWordsColumn extends React.Component {
   render() {
     return (
       <View style={[BaseStyles.centerContent, styles.wordsPanel]}>
-        {this.props.words.map((word) => {
-          return (<DiscoverWord word={word}/>);
+        {this.props.words.map((word, index) => {
+          let key = word + index;
+          return (<DiscoverWord key={key} word={word}/>);
         })}
       </View>
     );
