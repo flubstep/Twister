@@ -9,7 +9,6 @@ let {
   StyleSheet,
   Text,
   View,
-  Modal,
   TouchableWithoutFeedback,
   Animated
 } = React;
