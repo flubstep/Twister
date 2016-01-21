@@ -81,7 +81,7 @@ class DiscoveredWords extends React.Component {
       allWords
     } = this.props.revealedWords;
 
-    let columnLength = allWords.length/3;
+    let columnLength = Math.ceil(allWords.length/3);
     let columnWords1 = slice(allWords, 0, columnLength);
     let columnWords2 = slice(allWords, columnLength, columnLength*2);
     let columnWords3 = slice(allWords, columnLength*2);
