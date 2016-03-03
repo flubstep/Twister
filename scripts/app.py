@@ -6,7 +6,7 @@ from flask import Flask, Response, request
 app = Flask(__name__)
 
 puzzlefiles = os.listdir('./puzzles/')
-filenames = [os.path.join('./puzzles/', f) for f in puzzlefiles]
+filenames = [os.path.join('./puzzles/', f) for f in puzzlefiles if f.endswith('json')]
 puzzles = [open(f).read() for f in filenames]
 
 
